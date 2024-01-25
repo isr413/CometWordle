@@ -1,8 +1,17 @@
 public class CreateDictionary {
+  
   public static void main(String[] args) throws java.io.FileNotFoundException {
-    // System.out.println("Hello world!");
-    java.util.HashSet<String> words = toSet("wordle-La.txt");
-    words.addAll(toSet("wordle-Ta.txt"));
+    if (args == null || args.length == 0) {
+      System.out.println("Usage: java CreateDictionary <filename> ...");
+      System.out.println("- files must be in resources/");
+      System.exit(1);
+    }
+
+    java.util.HashSet<String> words = new java.util.HashSet<String>();
+
+    for (String filename : args) {
+      words.addAll(toSet(filename));
+    }
 
     java.util.ArrayList<String> list = new java.util.ArrayList<>(words);
     java.util.Collections.sort(list);
@@ -16,11 +25,10 @@ public class CreateDictionary {
     }
 
     writer.close();
-    System.out.println(words.size());
+    System.out.println(words.size() + " words written to dictionary.txt");
   }
 
-  public static java.util.HashSet<String> toSet(
-      String source) throws java.io.FileNotFoundException {
+  public static java.util.HashSet<String> toSet(String source) throws java.io.FileNotFoundException {
     java.util.HashSet<String> set = new java.util.HashSet<String>();
 
     java.util.Scanner scanner = new java.util.Scanner(
